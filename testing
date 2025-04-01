@@ -1,0 +1,100 @@
+http://localhost:8080/api/accounts?firstName=John&lastName=Doe&bankName=Axis Bank&initialDeposit=50000
+Step 2: Test with Postman
+1. Test Creating an Account (POST)
+Open Postman
+
+Create a new request:
+
+Method: POST
+
+URL:
+
+Copy
+http://localhost:8080/api/accounts?firstName=John&lastName=Doe&bankName=Axis Bank&initialDeposit=50000
+Click Send
+
+Successful Response (200 OK):
+
+json
+Copy
+{
+    "id": 1,
+    "firstName": "John",
+    "lastName": "Doe",
+    "savingsBalance": 50000.0,
+    "bank": {
+        "id": 1,
+        "name": "Axis Bank",
+        "baseInterestRate": 0.03,
+        "premiumInterestRate": 0.035,
+        "thresholdAmount": 500000.0
+    }
+}
+2. Test Listing All Customers (GET)
+New request in Postman:
+
+Method: GET
+
+URL:
+
+Copy
+http://localhost:8080/api/accounts
+Click Send
+
+Response:
+
+json
+Copy
+[
+    {
+        "id": 1,
+        "firstName": "John",
+        "lastName": "Doe",
+        "savingsBalance": 50000.0,
+        "bank": {
+            "id": 1,
+            "name": "Axis Bank"
+        }
+    }
+]
+3. Test Calculating Interest (POST)
+New request in Postman:
+
+Method: POST
+
+URL:
+
+Copy
+http://localhost:8080/api/accounts/interest
+Click Send
+
+Response:
+
+Copy
+Interest calculated for all accounts
+Verify Update:
+
+Call the GET /api/accounts endpoint again
+
+John's balance should now be:
+50000 + (50000 * 0.03 / 12) = 50125
+
+Step 3: Verify in MySQL Workbench
+Open MySQL Workbench
+
+Connect to your local server
+
+Run these queries:
+
+sql
+Copy
+-- See all customers
+SELECT * FROM savings_db.customers;
+
+-- See all banks
+SELECT * FROM savings_db.banks;
+You should see:
+
+Your created customer (John Doe)
+
+All banks from DataInitializer
